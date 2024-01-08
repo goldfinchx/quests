@@ -29,5 +29,8 @@
     <mapping class="org.goldfinch.quests.rewards.ExperienceReward"/>
     <mapping class="org.goldfinch.quests.rewards.ItemReward"/>
     <mapping class="org.goldfinch.quests.rewards.QuestPointsReward"/>
+
+    <mapping class="org.goldfinch.quests.wrappers.LocationWrapper"/>
+    <mapping class="org.goldfinch.quests.wrappers.ItemStackWrapper"/>
   </session-factory>
 </hibernate-configuration>
