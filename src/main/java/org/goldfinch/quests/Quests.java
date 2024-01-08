@@ -36,14 +36,16 @@ public class Quests extends JavaPlugin {
             .parallelTasks(false)
             .requirement(new LevelRequirement(10))
             .build();
+        this.questDataManager.create(quest);
 
         final ActiveQuest activeQuest = new ActiveQuest(quest);
+
         final QuestPlayerData questPlayerData = new QuestPlayerData(UUID.randomUUID());
         questPlayerData.getCompletedQuests().add(quest);
         questPlayerData.getActiveQuests().add(activeQuest);
 
-        this.questDataManager.create(quest);
         this.playerDataManager.create(questPlayerData);
+
     }
 
 

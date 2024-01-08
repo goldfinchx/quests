@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.UUID;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.goldfinch.quests.ActiveQuest;
 import org.goldfinch.quests.ActiveTask;
 import org.goldfinch.quests.data.core.DataObject;
@@ -33,6 +35,14 @@ public class QuestPlayerData extends PlayerData {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Quest> completedQuests;
 
+    public QuestPlayerData(UUID uuid) {
+        this.setId(uuid);
+        this.level = 1;
+        this.questPoints = 0;
+        this.activeQuests = new ArrayList<>();
+        this.completedQuests = new ArrayList<>();
+    }
+
     public List<ActiveTask> getActiveTasks(Class<? extends Task> taskType) {
         return this.activeQuests.stream()
             .flatMap(activeQuest -> activeQuest.getActiveTasks().stream())
@@ -40,12 +50,13 @@ public class QuestPlayerData extends PlayerData {
             .toList();
     }
 
-    public QuestPlayerData(UUID uuid) {
-        super(uuid);
-        this.level = 1;
-        this.questPoints = 0;
-        this.activeQuests = new ArrayList<>();
-        this.completedQuests = new ArrayList<>();
+    public Player getPlayer() {
+        final Player player = Bukkit.getPlayer(this.getId());
+        if (player == null) {
+            throw new IllegalStateException("Player is not online!");
+        }
+
+        return player;
     }
 
 }

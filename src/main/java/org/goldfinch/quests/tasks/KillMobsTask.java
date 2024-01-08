@@ -12,9 +12,13 @@ public class KillMobsTask extends Task<EntityDeathEvent> {
     private final int amount;
 
     @Override
-    public boolean check(EntityDeathEvent event, QuestPlayerData playerData) {
+    public int check(EntityDeathEvent event, QuestPlayerData playerData) {
         super.check(event, playerData);
 
-        return true;
+        if (event.getEntityType() != this.entityType) {
+            return 0;
+        }
+
+        return 1;
     }
 }

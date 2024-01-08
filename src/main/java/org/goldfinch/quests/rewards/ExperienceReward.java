@@ -10,6 +10,6 @@ public class ExperienceReward extends Reward {
 
     @Override
     public void give(QuestPlayerData questPlayerData) {
-
+        questPlayerData.getPlayer().giveExp(this.amount);
     }
 }

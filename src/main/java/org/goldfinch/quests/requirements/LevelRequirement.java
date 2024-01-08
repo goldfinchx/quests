@@ -1,12 +1,14 @@
 package org.goldfinch.quests.requirements;
 
-import lombok.AllArgsConstructor;
 import org.goldfinch.quests.player.QuestPlayerData;
 
-@AllArgsConstructor
 public class LevelRequirement extends Requirement {
 
-    private int requiredLevel;
+    private final int requiredLevel;
+
+    public LevelRequirement(int requiredLevel) {
+        this.requiredLevel = requiredLevel;
+    }
 
     @Override
     public boolean hasMet(QuestPlayerData questPlayerData) {

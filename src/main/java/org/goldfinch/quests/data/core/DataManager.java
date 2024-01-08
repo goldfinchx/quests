@@ -40,9 +40,12 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
 
     public D create(D data) {
         if (this.isDetached(data)) {
-            this.hibernate.completeOperation(session -> session.merge(data));
-        } else {
+            System.out.println(data.getClass() + " is detached");
             this.hibernate.completeOperation(session -> session.persist(data));
+        } else {
+            System.out.println(data.getClass() + " is not detached");
+            this.hibernate.completeOperation(session -> session.merge(data));
+
         }
 
         this.load(data.getId());
@@ -90,6 +93,13 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
 
     protected boolean isDetached(D data) {
         try (final EntityManager em = this.hibernate.getSessionFactory().createEntityManager()) {
+            //System.out.println("==================");
+            //System.out.println(data.getId());
+            //System.out.println(data.getClass());
+            //System.out.println(data.getId() != null);
+            //System.out.println(!em.contains(data));
+            //System.out.println(em.find(data.getClass(), data.getId()) != null);
+            //System.out.println("==================");
             return data.getId() != null
                           && !em.contains(data)
                           && em.find(data.getClass(), data.getId()) != null;
