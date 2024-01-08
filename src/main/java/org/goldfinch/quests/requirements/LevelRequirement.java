@@ -1,14 +1,16 @@
 package org.goldfinch.quests.requirements;
 
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.goldfinch.quests.player.QuestPlayerData;
 
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class LevelRequirement extends Requirement {
 
-    private final int requiredLevel;
-
-    public LevelRequirement(int requiredLevel) {
-        this.requiredLevel = requiredLevel;
-    }
+    private int requiredLevel;
 
     @Override
     public boolean hasMet(QuestPlayerData questPlayerData) {

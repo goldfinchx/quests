@@ -12,8 +12,22 @@
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">create</property>
 
-    <mapping class="org.goldfinch.quests.player.QuestPlayerData"/>
     <mapping class="org.goldfinch.quests.quest.Quest"/>
+    <mapping class="org.goldfinch.quests.player.QuestPlayerData"/>
     <mapping class="org.goldfinch.quests.ActiveQuest"/>
+
+    <mapping class="org.goldfinch.quests.requirements.Requirement"/>
+    <mapping class="org.goldfinch.quests.requirements.LevelRequirement"/>
+    <mapping class="org.goldfinch.quests.requirements.PermissionRequirement"/>
+    <mapping class="org.goldfinch.quests.requirements.CompletedQuestsRequirement"/>
+
+    <mapping class="org.goldfinch.quests.tasks.Task"/>
+    <mapping class="org.goldfinch.quests.tasks.KillMobsTask"/>
+    <mapping class="org.goldfinch.quests.tasks.ReachLocationTask"/>
+
+    <mapping class="org.goldfinch.quests.rewards.Reward"/>
+    <mapping class="org.goldfinch.quests.rewards.ExperienceReward"/>
+    <mapping class="org.goldfinch.quests.rewards.ItemReward"/>
+    <mapping class="org.goldfinch.quests.rewards.QuestPointsReward"/>
   </session-factory>
 </hibernate-configuration>

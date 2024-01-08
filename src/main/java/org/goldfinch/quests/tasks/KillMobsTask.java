@@ -1,20 +1,24 @@
 package org.goldfinch.quests.tasks;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Entity;
+import lombok.NoArgsConstructor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.goldfinch.quests.player.QuestPlayerData;
 
-@AllArgsConstructor
+@Entity
+@NoArgsConstructor
 public class KillMobsTask extends Task<EntityDeathEvent> {
 
-    private final EntityType entityType;
-    private final int amount;
+    private EntityType entityType;
+
+    public KillMobsTask(EntityType entityType, int amount) {
+        super(amount);
+        this.entityType = entityType;
+    }
 
     @Override
-    public int check(EntityDeathEvent event, QuestPlayerData playerData) {
-        super.check(event, playerData);
-
+    public int checkProgress(EntityDeathEvent event, QuestPlayerData playerData) {
         if (event.getEntityType() != this.entityType) {
             return 0;
         }

@@ -1,14 +1,11 @@
 package org.goldfinch.quests;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bukkit.event.Event;
-import org.goldfinch.quests.data.core.DataObject;
 import org.goldfinch.quests.player.QuestPlayerData;
 import org.goldfinch.quests.tasks.Task;
 
@@ -25,7 +22,9 @@ public class ActiveTask {
     @ManyToOne
     private ActiveQuest activeQuest;
 
+    @ManyToOne
     private Task task;
+
     private int progress;
 
     public ActiveTask(ActiveQuest activeQuest, Task task) {
@@ -35,16 +34,14 @@ public class ActiveTask {
     }
 
     public void check(Event event) {
-        final int changeResult = this.task.check(event, this.playerData);
-        this.setProgress(this.getProgress() + changeResult);
+        final int progressChange = this.task.checkProgress(event, this.playerData);
+        this.setProgress(this.getProgress() + progressChange);
 
-        if (this.getProgress() >= this.getTask().getTarget()) {
-            this.complete();
+        if (this.getProgress() < this.getTask().getTarget()) {
+            return;
         }
-    }
 
-    private void complete() {
-        this.activeQuest.getActiveTasks().remove(this);
+        this.activeQuest.completeTask(this);
     }
 
 }

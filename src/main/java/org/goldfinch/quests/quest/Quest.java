@@ -1,10 +1,9 @@
 package org.goldfinch.quests.quest;
 
-import jakarta.persistence.ElementCollection;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -29,15 +28,15 @@ public class Quest extends DataObject<Long> {
     private String description;
 
     @Singular
-    @ElementCollection
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Task> tasks;
 
     @Singular
-    @ElementCollection
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Reward> rewards;
 
     @Singular
-    @ElementCollection
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Requirement> requirements;
 
     @Builder.Default

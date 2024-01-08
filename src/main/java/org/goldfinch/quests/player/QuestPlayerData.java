@@ -14,9 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.goldfinch.quests.ActiveQuest;
 import org.goldfinch.quests.ActiveTask;
-import org.goldfinch.quests.data.core.DataObject;
 import org.goldfinch.quests.data.player.PlayerData;
-import org.goldfinch.quests.data.player.PlayerDataManager;
 import org.goldfinch.quests.quest.Quest;
 import org.goldfinch.quests.tasks.Task;
 
@@ -36,11 +34,16 @@ public class QuestPlayerData extends PlayerData {
     private List<Quest> completedQuests;
 
     public QuestPlayerData(UUID uuid) {
-        this.setId(uuid);
+        super(uuid);
         this.level = 1;
         this.questPoints = 0;
         this.activeQuests = new ArrayList<>();
         this.completedQuests = new ArrayList<>();
+    }
+
+    public void completeQuest(ActiveQuest activeQuest) {
+        this.activeQuests.remove(activeQuest);
+        this.completedQuests.add(activeQuest.getQuest());
     }
 
     public List<ActiveTask> getActiveTasks(Class<? extends Task> taskType) {
