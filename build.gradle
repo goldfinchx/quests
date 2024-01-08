@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'io.freefair.lombok' version '8.1.0'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'io.papermc.paperweight.userdev' version '1.5.5'
+    id 'xyz.jpenilla.run-paper' version '2.1.0'
+    id 'org.hibernate.orm' version '6.4.1.Final'
+}
+
+group = 'org.goldfinch'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    paperweightDevelopmentBundle('io.papermc.paper:dev-bundle:1.20-R0.1-SNAPSHOT')
+
+    implementation 'org.postgresql:postgresql:42.7.1'
+    compileOnly fileTree(dir: 'libs', include: '*.jar')
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
