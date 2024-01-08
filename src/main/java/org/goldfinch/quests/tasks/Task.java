@@ -15,8 +15,8 @@ public class Task<E extends Event> {
 
     private int target;
 
-    public boolean check(E event, QuestPlayerData playerData) {
-        return true;
+    public int check(E event, QuestPlayerData playerData) {
+        return 0;
     }
 
 }

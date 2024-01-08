@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.goldfinch.quests.data.DataManager;
+import org.goldfinch.quests.data.core.DataManager;
 
 @Setter
 @Accessors(chain = true, fluent = true)

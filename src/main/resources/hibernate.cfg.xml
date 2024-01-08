@@ -14,5 +14,6 @@
 
     <mapping class="org.goldfinch.quests.player.QuestPlayerData"/>
     <mapping class="org.goldfinch.quests.quest.Quest"/>
+    <mapping class="org.goldfinch.quests.ActiveQuest"/>
   </session-factory>
 </hibernate-configuration>

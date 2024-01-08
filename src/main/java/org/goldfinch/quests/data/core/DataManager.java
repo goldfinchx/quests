@@ -1,5 +1,6 @@
-package org.goldfinch.quests.data;
+package org.goldfinch.quests.data.core;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -38,7 +39,12 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
     }
 
     public D create(D data) {
-        this.hibernate.completeOperation(session -> session.persist(data));
+        if (this.isDetached(data)) {
+            this.hibernate.completeOperation(session -> session.merge(data));
+        } else {
+            this.hibernate.completeOperation(session -> session.persist(data));
+        }
+
         this.load(data.getId());
         return data;
     }
@@ -77,6 +83,16 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
     protected D getRemote(I id) {
         try (final Session session = this.hibernate.getSessionFactory().openSession()) {
             return session.get(this.dataClass, id);
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    protected boolean isDetached(D data) {
+        try (final EntityManager em = this.hibernate.getSessionFactory().createEntityManager()) {
+            return data.getId() != null
+                          && !em.contains(data)
+                          && em.find(data.getClass(), data.getId()) != null;
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }

@@ -1,4 +1,4 @@
-package org.goldfinch.quests.data;
+package org.goldfinch.quests.data.core;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;

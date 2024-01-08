@@ -2,14 +2,16 @@ package org.goldfinch.quests.requirements;
 
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.goldfinch.quests.player.QuestPlayerData;
 
+@Getter
 @Embeddable
-@MappedSuperclass
+@NoArgsConstructor
 public class Requirement {
 
-    private String name;
+    private String test;
 
     public boolean hasMet(QuestPlayerData questPlayerData) {
         return true;
