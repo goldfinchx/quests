@@ -1,11 +1,10 @@
 package org.goldfinch.quests.wrappers;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.Table;
 import java.io.IOException;
@@ -32,6 +31,7 @@ public class ItemStackWrapper extends DataObject<Long> implements Wrapper<ItemSt
     private String title;
 
     @ElementCollection
+    @JoinTable(name = "items_lore")
     private List<String> lore;
 
     @Enumerated(value = EnumType.STRING)
@@ -39,6 +39,7 @@ public class ItemStackWrapper extends DataObject<Long> implements Wrapper<ItemSt
 
     @ElementCollection
     @MapKeyColumn(name = "enchantment_name")
+    @JoinTable(name = "items_enchantments")
     private Map<String, Integer> enchantments;
 
     private int customModelData;

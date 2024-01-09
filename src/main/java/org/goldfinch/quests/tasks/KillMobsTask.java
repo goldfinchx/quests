@@ -14,7 +14,7 @@ public class KillMobsTask extends Task<EntityDeathEvent> {
 
     @Enumerated(value = EnumType.STRING)
     private EntityType entityType;
-
+    
     public KillMobsTask(EntityType entityType, int amount) {
         super(amount);
         this.entityType = entityType;

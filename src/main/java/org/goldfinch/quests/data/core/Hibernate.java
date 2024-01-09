@@ -1,10 +1,10 @@
 package org.goldfinch.quests.data.core;
 
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 import lombok.Getter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -42,11 +42,23 @@ public class Hibernate {
         this.sessionFactory.close();
     }
 
-    public void completeOperation(Consumer<Session> consumer) {
+    public <R> CompletableFuture<R> completeTransaction(Function<Session, R> function) {
         try (final Session session = this.sessionFactory.openSession()) {
-            final Transaction transaction = session.beginTransaction();
-            consumer.accept(session);
-            transaction.commit();
+            return CompletableFuture.supplyAsync(session::beginTransaction)
+                .thenApply(transaction -> {
+                    final R result = function.apply(session);
+                    transaction.commit();
+                    return result;
+                });
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+
+    public <R> CompletableFuture<R> completeOperation(Function<Session, R> function) {
+        try (final Session session = this.sessionFactory.openSession()) {
+            return CompletableFuture.supplyAsync(() -> function.apply(session));
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }

@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.goldfinch.quests.Quests;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 @Accessors(chain = true, fluent = true)
@@ -40,20 +39,32 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
 
     public D create(D data) {
         if (this.isDetached(data)) {
-            System.out.println(data.getClass() + " is detached");
-            this.hibernate.completeOperation(session -> session.persist(data));
-        } else {
-            System.out.println(data.getClass() + " is not detached");
-            this.hibernate.completeOperation(session -> session.merge(data));
+            data = this.updateRemote(data);
 
         }
+        final D finalData = data;
 
-        this.load(data.getId());
-        return data;
+        this.hibernate.completeTransaction(session -> {
+            session.persist(finalData);
+            return null;
+        });
+
+        return this.load(finalData.getId());
+    }
+
+    public void delete(D data) {
+        if (this.isCached(data.getId())) {
+            this.invalidate(data.getId());
+        }
+
+        this.hibernate.completeTransaction(session -> {
+            session.remove(data);
+            return null;
+        });
     }
 
     public D get(I id) {
-        return this.isCached(id) ? this.getCached(id) : this.load(id);
+        return this.load(id);
     }
 
     public D load(I id) {
@@ -76,30 +87,15 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
     }
 
     protected boolean isExists(I id) {
-        try (final Session session = this.hibernate.getSessionFactory().openSession()) {
-            return session.get(this.dataClass, id) != null;
-        } catch (Exception exception) {
-            throw new RuntimeException(exception);
-        }
+        return this.hibernate.completeOperation(session -> session.get(this.dataClass, id) != null).join();
     }
 
     protected D getRemote(I id) {
-        try (final Session session = this.hibernate.getSessionFactory().openSession()) {
-            return session.get(this.dataClass, id);
-        } catch (Exception exception) {
-            throw new RuntimeException(exception);
-        }
+        return this.hibernate.completeOperation(session -> session.get(this.dataClass, id)).join();
     }
 
     protected boolean isDetached(D data) {
         try (final EntityManager em = this.hibernate.getSessionFactory().createEntityManager()) {
-            //System.out.println("==================");
-            //System.out.println(data.getId());
-            //System.out.println(data.getClass());
-            //System.out.println(data.getId() != null);
-            //System.out.println(!em.contains(data));
-            //System.out.println(em.find(data.getClass(), data.getId()) != null);
-            //System.out.println("==================");
             return data.getId() != null
                           && !em.contains(data)
                           && em.find(data.getClass(), data.getId()) != null;
@@ -140,8 +136,8 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
         this.updateRemote(data);
     }
 
-    protected void updateRemote(D data) {
-        this.hibernate.completeOperation(session -> session.merge(data));
+    protected D updateRemote(D data) {
+        return this.hibernate.completeTransaction(session -> session.merge(data)).join();
     }
 
     protected void invalidate(I id) {
@@ -153,18 +149,13 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
     }
     public Map<I, D> getStorage() {
         final Map<I, D> storage = new HashMap<>();
-        final TypedQuery<D> allQuery;
-
-        try (final Session session = this.sessionFactory.openSession()) {
+        final TypedQuery<D> allQuery = this.hibernate.completeOperation(session -> {
             final CriteriaBuilder cb = session.getCriteriaBuilder();
             final CriteriaQuery<D> cq = cb.createQuery(this.dataClass);
             final Root<D> rootEntry = cq.from(this.dataClass);
             final CriteriaQuery<D> all = cq.select(rootEntry);
-            allQuery = session.createQuery(all);
-
-        } catch (Exception exception) {
-            throw new RuntimeException(exception);
-        }
+            return session.createQuery(all);
+        }).join();
 
         for (final D data : allQuery.getResultList()) {
             storage.put(data.getId(), data);
