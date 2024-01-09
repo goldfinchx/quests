@@ -37,19 +37,8 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
         this.dataClass = dataClass;
     }
 
-    public D create(D data) {
-        if (this.isDetached(data)) {
-            data = this.updateRemote(data);
-
-        }
-        final D finalData = data;
-
-        this.hibernate.completeTransaction(session -> {
-            session.persist(finalData);
-            return null;
-        });
-
-        return this.load(finalData.getId());
+    public void create(D data) {
+        this.hibernate.completeTransaction(session -> session.merge(data)).thenAccept(d -> this.load(d.getId()));
     }
 
     public void delete(D data) {
@@ -87,11 +76,11 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
     }
 
     protected boolean isExists(I id) {
-        return this.hibernate.completeOperation(session -> session.get(this.dataClass, id) != null).join();
+        return this.hibernate.completeTransaction(session -> session.get(this.dataClass, id) != null).join();
     }
 
     protected D getRemote(I id) {
-        return this.hibernate.completeOperation(session -> session.get(this.dataClass, id)).join();
+        return this.hibernate.completeTransaction(session -> session.get(this.dataClass, id)).join();
     }
 
     protected boolean isDetached(D data) {

@@ -41,16 +41,16 @@ public class Quests extends JavaPlugin {
             .build();
         this.questDataManager.create(quest);
 
-        final ActiveQuest activeQuest = new ActiveQuest(quest);
-
-        final QuestPlayerData questPlayerData = new QuestPlayerData(UUID.randomUUID());
-        questPlayerData.getCompletedQuests().add(quest);
-        questPlayerData.getActiveQuests().add(activeQuest);
-
-        this.playerDataManager.create(questPlayerData);
-        this.questDataManager.get(1L).getRequirements().forEach(requirement -> {
-            System.out.println(requirement.getClass().getSimpleName());
-        });
+        //final ActiveQuest activeQuest = new ActiveQuest(quest);
+        //
+        //final QuestPlayerData questPlayerData = new QuestPlayerData(UUID.randomUUID());
+        //questPlayerData.getCompletedQuests().add(quest);
+        //questPlayerData.getActiveQuests().add(activeQuest);
+        //
+        //this.playerDataManager.create(questPlayerData);
+        //this.questDataManager.get(1L).getRequirements().forEach(requirement -> {
+        //    System.out.println(requirement.getClass().getSimpleName());
+        //});
 
     }
 

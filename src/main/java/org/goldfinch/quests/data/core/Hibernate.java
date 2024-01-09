@@ -5,6 +5,7 @@ import java.util.function.Function;
 import lombok.Getter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -44,12 +45,14 @@ public class Hibernate {
 
     public <R> CompletableFuture<R> completeTransaction(Function<Session, R> function) {
         try (final Session session = this.sessionFactory.openSession()) {
-            return CompletableFuture.supplyAsync(session::beginTransaction)
-                .thenApply(transaction -> {
-                    final R result = function.apply(session);
-                    transaction.commit();
-                    return result;
-                });
+            final Transaction transaction = session.beginTransaction();
+            final R result = function.apply(session);
+            transaction.commit();
+
+            return CompletableFuture.supplyAsync(() -> result).exceptionally(throwable -> {
+                throwable.printStackTrace();
+                return null;
+            });
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }
@@ -58,8 +61,13 @@ public class Hibernate {
 
     public <R> CompletableFuture<R> completeOperation(Function<Session, R> function) {
         try (final Session session = this.sessionFactory.openSession()) {
-            return CompletableFuture.supplyAsync(() -> function.apply(session));
+            return CompletableFuture.supplyAsync(() -> function.apply(session))
+                .exceptionally(throwable -> {
+                    throwable.printStackTrace();
+                    return null;
+                });
         } catch (Exception exception) {
+            exception.printStackTrace();
             throw new RuntimeException(exception);
         }
     }

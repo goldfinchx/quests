@@ -31,7 +31,7 @@ public class ItemStackWrapper extends DataObject<Long> implements Wrapper<ItemSt
     private String title;
 
     @ElementCollection
-    @JoinTable(name = "items_lore")
+    @JoinTable(name = "itemstacks_lore")
     private List<String> lore;
 
     @Enumerated(value = EnumType.STRING)
@@ -39,7 +39,7 @@ public class ItemStackWrapper extends DataObject<Long> implements Wrapper<ItemSt
 
     @ElementCollection
     @MapKeyColumn(name = "enchantment_name")
-    @JoinTable(name = "items_enchantments")
+    @JoinTable(name = "itemstacks_enchantments")
     private Map<String, Integer> enchantments;
 
     private int customModelData;
