@@ -19,19 +19,6 @@ public abstract class PlayerDataManager<P extends PlayerData> extends DataManage
         plugin.getServer().getPluginManager().registerEvents(new PlayerListener(this), plugin);
     }
 
-    private P create(UUID uuid) {
-        final P data;
-
-        try {
-            data = (P) this.getTemplate().getClass().getConstructor(UUID.class).newInstance(uuid);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-
-        this.onCreate.accept(data);
-        return data;
-    }
-
     @Override
     public P load(UUID id) {
         if (this.isCached(id)) {
@@ -44,7 +31,13 @@ public abstract class PlayerDataManager<P extends PlayerData> extends DataManage
             this.cache(data);
             return data;
         } else {
-            return this.create(id);
+            try {
+                final P data = this.create((P) this.getTemplate().getClass().getConstructor(UUID.class).newInstance(id));
+                this.onCreate.accept(data);
+                return data;
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

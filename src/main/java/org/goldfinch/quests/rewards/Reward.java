@@ -25,6 +25,6 @@ public abstract class Reward extends DataObject<Long> {
     @Transient //todo config
     private String failureMessage;
 
-    public void give(QuestPlayerData questPlayerData) {}
+    public abstract void give(QuestPlayerData questPlayerData);
 
 }

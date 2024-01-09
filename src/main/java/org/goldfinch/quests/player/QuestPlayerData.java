@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.goldfinch.quests.ActiveQuest;
 import org.goldfinch.quests.ActiveTask;
+import org.goldfinch.quests.Quests;
 import org.goldfinch.quests.data.player.PlayerData;
 import org.goldfinch.quests.quest.Quest;
 import org.goldfinch.quests.tasks.Task;
@@ -27,10 +28,10 @@ public class QuestPlayerData extends PlayerData {
     private int level;
     private int questPoints;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ActiveQuest> activeQuests;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Quest> completedQuests;
 
     public QuestPlayerData(UUID uuid) {
@@ -41,13 +42,18 @@ public class QuestPlayerData extends PlayerData {
         this.completedQuests = new ArrayList<>();
     }
 
+    public void startQuest(Quest quest) {
+        this.getActiveQuests().add(new ActiveQuest(quest, this));
+    }
+
     public void completeQuest(ActiveQuest activeQuest) {
-        this.activeQuests.remove(activeQuest);
-        this.completedQuests.add(activeQuest.getQuest());
+        this.getActiveQuests().remove(activeQuest);
+        this.getCompletedQuests().add(activeQuest.getQuest());
     }
 
     public List<ActiveTask> getActiveTasks(Class<? extends Task> taskType) {
-        return this.activeQuests.stream()
+        return this.getActiveQuests()
+            .stream()
             .flatMap(activeQuest -> activeQuest.getActiveTasks().stream())
             .filter(activeTask -> activeTask.getTask().getClass().equals(taskType))
             .toList();

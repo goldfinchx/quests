@@ -26,9 +26,6 @@ public abstract class Requirement extends DataObject<Long> {
     @Transient //todo config
     private String failureMessage;
 
-    public boolean hasMet(QuestPlayerData questPlayerData) {
-        return true;
-    }
-
+    public abstract boolean hasMet(QuestPlayerData questPlayerData);
 
 }

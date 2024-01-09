@@ -17,12 +17,10 @@ import org.goldfinch.quests.player.QuestPlayerData;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task<E extends Event> extends DataObject<Long> {
+public abstract class Task<E extends Event> extends DataObject<Long> {
 
     private int target;
 
-    public int checkProgress(E event, QuestPlayerData playerData) {
-        return 0;
-    }
+    public abstract int checkProgress(E event, QuestPlayerData playerData);
 
 }

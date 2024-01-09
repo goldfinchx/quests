@@ -18,6 +18,7 @@ dependencies {
     paperweightDevelopmentBundle('io.papermc.paper:dev-bundle:1.20-R0.1-SNAPSHOT')
 
     implementation 'org.postgresql:postgresql:42.7.1'
+    implementation "cloud.commandframework:cloud-paper:1.8.3"
     compileOnly fileTree(dir: 'libs', include: '*.jar')
 
     testImplementation platform('org.junit:junit-bom:5.9.1')

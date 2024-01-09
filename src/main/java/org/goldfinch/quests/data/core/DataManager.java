@@ -37,8 +37,10 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
         this.dataClass = dataClass;
     }
 
-    public void create(D data) {
-        this.hibernate.completeTransaction(session -> session.merge(data)).thenAccept(d -> this.load(d.getId()));
+    public D create(D data) {
+        return this.hibernate.completeTransaction(session -> session.merge(data))
+            .thenApply(d -> this.load(d.getId()))
+            .join();
     }
 
     public void delete(D data) {
