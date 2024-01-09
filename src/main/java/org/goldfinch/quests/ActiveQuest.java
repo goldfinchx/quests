@@ -30,19 +30,15 @@ public class ActiveQuest extends DataObject<Long> {
 
     @ElementCollection
     @JoinTable(name = "active_quests_tasks")
-    private List<ActiveTask> activeTasks = new ArrayList<>();
+    private List<ActiveTask> activeTasks;
 
     public ActiveQuest(Quest quest, QuestPlayerData playerData) {
+        this.setId(playerData.getActiveQuests().size() + 1L);
         this.quest = quest;
         this.playerData = playerData;
         this.activeTasks = quest.getTasks().stream()
             .map(task -> new ActiveTask(this, task))
             .toList();
-
-        Quests.getInstance().getHibernate().completeTransaction(session -> {
-            session.merge(this);
-            return new Object();
-        });
     }
 
     public void completeTask(ActiveTask activeTask) {
