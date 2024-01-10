@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.event.Event;
 import org.goldfinch.quests.data.core.DataObject;
-import org.goldfinch.quests.player.QuestPlayerData;
+import org.goldfinch.quests.player.entity.QuestPlayerData;
 
 @Getter
 @Entity
@@ -21,6 +21,6 @@ public abstract class Task<E extends Event> extends DataObject<Long> {
 
     private int target;
 
-    public abstract int checkProgress(E event, QuestPlayerData playerData);
+    public abstract int tryProgress(E event, QuestPlayerData playerData);
 
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.goldfinch.quests.data.core.DataManager;
+import org.goldfinch.quests.data.core.Hibernate;
 
 @Setter
 @Accessors(chain = true, fluent = true)
@@ -14,8 +15,8 @@ public abstract class PlayerDataManager<P extends PlayerData> extends DataManage
 
     private Consumer<P> onCreate = $ -> {};
 
-    public PlayerDataManager(JavaPlugin plugin, Class<P> playerDataClass) {
-        super(playerDataClass);
+    public PlayerDataManager(JavaPlugin plugin, Class<P> playerDataClass, Hibernate hibernate) {
+        super(playerDataClass, hibernate);
         plugin.getServer().getPluginManager().registerEvents(new PlayerListener(this), plugin);
     }
 

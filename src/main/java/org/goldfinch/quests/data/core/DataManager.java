@@ -30,9 +30,9 @@ public abstract class DataManager<D extends DataObject<I>, I extends Serializabl
     private Consumer<D> onLoad = $ -> {};
     private Consumer<D> onUnload = $ -> {};
 
-    public DataManager(Class<D> dataClass) {
+    public DataManager(Class<D> dataClass, Hibernate hibernate) {
         this.cacheManager = new LocalCacheManager<>();
-        this.hibernate = Quests.getInstance().getHibernate();
+        this.hibernate = hibernate;
         this.sessionFactory = this.hibernate.getSessionFactory();
         this.dataClass = dataClass;
     }

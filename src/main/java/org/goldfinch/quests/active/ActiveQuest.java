@@ -1,20 +1,17 @@
-package org.goldfinch.quests;
+package org.goldfinch.quests.active;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
 import java.util.List;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.goldfinch.quests.data.core.DataObject;
-import org.goldfinch.quests.player.QuestPlayerData;
-import org.goldfinch.quests.quest.Quest;
+import org.goldfinch.quests.player.entity.QuestPlayerData;
+import org.goldfinch.quests.quest.entity.Quest;
 
 @Getter
 @Entity
@@ -48,7 +45,17 @@ public class ActiveQuest extends DataObject<Long> {
             return;
         }
 
-        this.playerData.completeQuest(this);
+        this.complete();
+    }
+
+    public void complete() {
+        this.giveRewards();
+        this.playerData.getActiveQuests().remove(this);
+        this.playerData.getCompletedQuests().add(this.getQuest());
+    }
+
+    private void giveRewards() {
+        this.quest.getRewards().forEach(reward -> reward.give(this.playerData));
     }
 
 }

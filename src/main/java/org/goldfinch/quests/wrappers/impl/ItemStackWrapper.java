@@ -1,4 +1,4 @@
-package org.goldfinch.quests.wrappers;
+package org.goldfinch.quests.wrappers.impl;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -20,6 +20,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.goldfinch.quests.data.core.DataObject;
+import org.goldfinch.quests.wrappers.Wrapper;
 
 @Getter
 @Entity

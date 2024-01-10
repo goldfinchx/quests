@@ -1,4 +1,4 @@
-package org.goldfinch.quests;
+package org.goldfinch.quests.active;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.ManyToOne;
@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bukkit.event.Event;
-import org.goldfinch.quests.player.QuestPlayerData;
 import org.goldfinch.quests.tasks.Task;
 
 
@@ -15,9 +14,6 @@ import org.goldfinch.quests.tasks.Task;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ActiveTask {
-
-    @ManyToOne
-    private QuestPlayerData playerData;
 
     @ManyToOne
     private ActiveQuest activeQuest;
@@ -33,8 +29,8 @@ public class ActiveTask {
         this.progress = 0;
     }
 
-    public void check(Event event) {
-        final int progressChange = this.task.checkProgress(event, this.playerData);
+    public void tryProgress(Event event) {
+        final int progressChange = this.task.tryProgress(event, this.activeQuest.getPlayerData());
         this.setProgress(this.getProgress() + progressChange);
 
         if (this.getProgress() < this.getTask().getTarget()) {

@@ -1,4 +1,4 @@
-package org.goldfinch.quests.tasks;
+package org.goldfinch.quests.tasks.impl;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -6,7 +6,8 @@ import jakarta.persistence.Enumerated;
 import lombok.NoArgsConstructor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.goldfinch.quests.player.QuestPlayerData;
+import org.goldfinch.quests.player.entity.QuestPlayerData;
+import org.goldfinch.quests.tasks.Task;
 
 @Entity
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class KillMobsTask extends Task<EntityDeathEvent> {
     }
 
     @Override
-    public int checkProgress(EntityDeathEvent event, QuestPlayerData playerData) {
+    public int tryProgress(EntityDeathEvent event, QuestPlayerData playerData) {
         if (event.getEntityType() != this.entityType) {
             return 0;
         }

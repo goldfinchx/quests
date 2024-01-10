@@ -1,9 +1,10 @@
-package org.goldfinch.quests.requirements;
+package org.goldfinch.quests.requirements.impl;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.goldfinch.quests.player.QuestPlayerData;
+import org.goldfinch.quests.player.entity.QuestPlayerData;
+import org.goldfinch.quests.requirements.Requirement;
 
 @Entity
 @NoArgsConstructor
@@ -14,6 +15,6 @@ public class PermissionRequirement extends Requirement {
 
     @Override
     public boolean hasMet(QuestPlayerData questPlayerData) {
-        return questPlayerData.getPlayer().hasPermission(this.permission);
+        return questPlayerData.getBukkitPlayer().hasPermission(this.permission);
     }
 }

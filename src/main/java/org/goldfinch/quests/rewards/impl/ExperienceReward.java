@@ -1,9 +1,10 @@
-package org.goldfinch.quests.rewards;
+package org.goldfinch.quests.rewards.impl;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.goldfinch.quests.player.QuestPlayerData;
+import org.goldfinch.quests.player.entity.QuestPlayerData;
+import org.goldfinch.quests.rewards.Reward;
 
 @Entity
 @NoArgsConstructor
@@ -14,6 +15,6 @@ public class ExperienceReward extends Reward {
 
     @Override
     public void give(QuestPlayerData questPlayerData) {
-        questPlayerData.getPlayer().giveExp(this.amount);
+        questPlayerData.getBukkitPlayer().giveExp(this.amount);
     }
 }

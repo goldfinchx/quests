@@ -1,4 +1,4 @@
-package org.goldfinch.quests.player;
+package org.goldfinch.quests.player.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -12,11 +12,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.goldfinch.quests.ActiveQuest;
-import org.goldfinch.quests.ActiveTask;
-import org.goldfinch.quests.Quests;
+import org.goldfinch.quests.active.ActiveQuest;
+import org.goldfinch.quests.active.ActiveTask;
 import org.goldfinch.quests.data.player.PlayerData;
-import org.goldfinch.quests.quest.Quest;
+import org.goldfinch.quests.quest.entity.Quest;
 import org.goldfinch.quests.tasks.Task;
 
 @Data
@@ -42,15 +41,6 @@ public class QuestPlayerData extends PlayerData {
         this.completedQuests = new ArrayList<>();
     }
 
-    public void startQuest(Quest quest) {
-        this.getActiveQuests().add(new ActiveQuest(quest, this));
-    }
-
-    public void completeQuest(ActiveQuest activeQuest) {
-        this.getActiveQuests().remove(activeQuest);
-        this.getCompletedQuests().add(activeQuest.getQuest());
-    }
-
     public List<ActiveTask> getActiveTasks(Class<? extends Task> taskType) {
         return this.getActiveQuests()
             .stream()
@@ -59,10 +49,15 @@ public class QuestPlayerData extends PlayerData {
             .toList();
     }
 
-    public Player getPlayer() {
+    public boolean isCompletingQuest(Quest quest) {
+        return this.getActiveQuests().stream().anyMatch(activeQuest -> activeQuest.getQuest().equals(quest));
+    }
+
+    public Player getBukkitPlayer() {
         final Player player = Bukkit.getPlayer(this.getId());
+
         if (player == null) {
-            throw new IllegalStateException("Player is not online!");
+            throw new NullPointerException("Player is offline!");
         }
 
         return player;
