@@ -1,12 +1,10 @@
-package org.goldfinch.quests.data.player;
+package org.goldfinch.quests.libs.storages.player;
 
-import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.goldfinch.quests.data.core.DataObject;
+import org.goldfinch.quests.libs.storages.core.DataObject;
 
 @Data
 @NoArgsConstructor

@@ -1,4 +1,4 @@
-package org.goldfinch.quests.data.player;
+package org.goldfinch.quests.libs.storages.player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
@@ -6,8 +6,8 @@ import java.util.function.Consumer;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.goldfinch.quests.data.core.DataManager;
-import org.goldfinch.quests.data.core.Hibernate;
+import org.goldfinch.quests.libs.storages.core.DataManager;
+import org.goldfinch.quests.libs.storages.dbs.Hibernate;
 
 @Setter
 @Accessors(chain = true, fluent = true)

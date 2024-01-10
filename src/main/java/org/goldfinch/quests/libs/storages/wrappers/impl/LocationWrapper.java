@@ -1,4 +1,4 @@
-package org.goldfinch.quests.wrappers.impl;
+package org.goldfinch.quests.libs.storages.wrappers.impl;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.goldfinch.quests.data.core.DataObject;
-import org.goldfinch.quests.wrappers.Wrapper;
+import org.goldfinch.quests.libs.storages.core.DataObject;
+import org.goldfinch.quests.libs.storages.wrappers.Wrapper;
 
 @Getter
 @Entity

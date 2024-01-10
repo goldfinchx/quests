@@ -1,4 +1,4 @@
-package org.goldfinch.quests.active;
+package org.goldfinch.quests.quest.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
@@ -9,9 +9,9 @@ import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.goldfinch.quests.data.core.DataObject;
+import org.goldfinch.quests.tasks.ActiveTask;
+import org.goldfinch.quests.libs.storages.core.DataObject;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
-import org.goldfinch.quests.quest.entity.Quest;
 
 @Getter
 @Entity

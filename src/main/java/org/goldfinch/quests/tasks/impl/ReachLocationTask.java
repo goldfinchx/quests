@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
 import org.goldfinch.quests.tasks.Task;
-import org.goldfinch.quests.wrappers.impl.LocationWrapper;
+import org.goldfinch.quests.libs.storages.wrappers.impl.LocationWrapper;
 
 @Entity
 @NoArgsConstructor

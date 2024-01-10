@@ -69,4 +69,6 @@ public class MessagesConfig extends Config {
         REWARD_EXPERIENCE,
         REWARD_ITEMS,
     }
+
+
 }

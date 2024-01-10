@@ -1,4 +1,4 @@
-package org.goldfinch.quests.active;
+package org.goldfinch.quests.tasks;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.ManyToOne;
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bukkit.event.Event;
-import org.goldfinch.quests.tasks.Task;
+import org.goldfinch.quests.quest.entity.ActiveQuest;
 
 
 @Data

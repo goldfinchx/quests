@@ -1,4 +1,4 @@
-package org.goldfinch.quests.data.core;
+package org.goldfinch.quests.libs.storages.core;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -14,7 +14,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.goldfinch.quests.Quests;
+import org.goldfinch.quests.libs.storages.dbs.Hibernate;
 import org.hibernate.SessionFactory;
 
 @Accessors(chain = true, fluent = true)

@@ -2,9 +2,9 @@ package org.goldfinch.quests;
 
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.goldfinch.quests.commands.Commands;
+import org.goldfinch.quests.libs.commands.Commands;
 import org.goldfinch.quests.commands.QuestCommands;
-import org.goldfinch.quests.data.core.Hibernate;
+import org.goldfinch.quests.libs.storages.dbs.Hibernate;
 import org.goldfinch.quests.language.MessagesConfig;
 import org.goldfinch.quests.listener.QuestListener;
 import org.goldfinch.quests.player.QuestPlayerDataManager;

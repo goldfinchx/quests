@@ -14,12 +14,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.goldfinch.quests.active.ActiveQuest;
-import org.goldfinch.quests.active.ActiveTask;
-import org.goldfinch.quests.data.player.PlayerData;
-import org.goldfinch.quests.language.Language;
+import org.goldfinch.quests.quest.entity.ActiveQuest;
+import org.goldfinch.quests.tasks.ActiveTask;
+import org.goldfinch.quests.libs.storages.player.PlayerData;
 import org.goldfinch.quests.quest.entity.Quest;
 import org.goldfinch.quests.tasks.Task;
+import org.goldfinch.quests.language.Language;
 
 @Data
 @Entity

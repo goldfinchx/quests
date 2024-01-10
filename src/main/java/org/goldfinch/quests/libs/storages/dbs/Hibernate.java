@@ -1,4 +1,4 @@
-package org.goldfinch.quests.data.core;
+package org.goldfinch.quests.libs.storages.dbs;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package org.goldfinch.quests.data.core;
+package org.goldfinch.quests.libs.storages.core;
 
 import java.io.Serializable;
 import java.util.HashMap;

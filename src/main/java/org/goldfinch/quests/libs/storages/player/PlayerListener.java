@@ -1,4 +1,4 @@
-package org.goldfinch.quests.data.player;
+package org.goldfinch.quests.libs.storages.player;
 
 import java.util.UUID;
 import org.bukkit.event.EventHandler;

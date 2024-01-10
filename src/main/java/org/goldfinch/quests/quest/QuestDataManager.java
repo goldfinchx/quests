@@ -1,7 +1,7 @@
 package org.goldfinch.quests.quest;
 
 import org.goldfinch.quests.Quests;
-import org.goldfinch.quests.data.core.DataManager;
+import org.goldfinch.quests.libs.storages.core.DataManager;
 import org.goldfinch.quests.quest.entity.Quest;
 
 public class QuestDataManager extends DataManager<Quest, Long> {

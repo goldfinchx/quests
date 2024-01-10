@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.event.Event;
-import org.goldfinch.quests.data.core.DataObject;
+import org.goldfinch.quests.libs.storages.core.DataObject;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
 
 @Getter
