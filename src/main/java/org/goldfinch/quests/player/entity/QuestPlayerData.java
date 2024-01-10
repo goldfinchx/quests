@@ -2,6 +2,8 @@ package org.goldfinch.quests.player.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -15,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.goldfinch.quests.active.ActiveQuest;
 import org.goldfinch.quests.active.ActiveTask;
 import org.goldfinch.quests.data.player.PlayerData;
+import org.goldfinch.quests.language.Language;
 import org.goldfinch.quests.quest.entity.Quest;
 import org.goldfinch.quests.tasks.Task;
 
@@ -27,6 +30,9 @@ public class QuestPlayerData extends PlayerData {
     private int level;
     private int questPoints;
 
+    @Enumerated(value = EnumType.STRING)
+    private Language language;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ActiveQuest> activeQuests;
 
@@ -37,6 +43,7 @@ public class QuestPlayerData extends PlayerData {
         super(uuid);
         this.level = 1;
         this.questPoints = 0;
+        this.language = Language.ENGLISH;
         this.activeQuests = new ArrayList<>();
         this.completedQuests = new ArrayList<>();
     }

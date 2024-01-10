@@ -11,8 +11,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Singular;
+import org.goldfinch.quests.Quests;
 import org.goldfinch.quests.active.ActiveQuest;
 import org.goldfinch.quests.data.core.DataObject;
+import org.goldfinch.quests.language.Language;
+import org.goldfinch.quests.language.MessagesConfig;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
 import org.goldfinch.quests.requirements.Requirement;
 import org.goldfinch.quests.rewards.Reward;
@@ -51,12 +54,12 @@ public class Quest extends DataObject<Long> {
 
     public void start(QuestPlayerData playerData) {
         if (playerData.isCompletingQuest(this)) {
-            // todo send message
+            Quests.getInstance().getMessagesConfig().send(playerData, MessagesConfig.Message.ALREADY_COMPLETING_QUEST);
             return;
         }
 
-        if (this.hasMetRequirements(playerData)) {
-            // todo send message
+        if (!this.hasMetRequirements(playerData)) {
+            Quests.getInstance().getMessagesConfig().send(playerData, MessagesConfig.Message.REQUIREMENTS_NOT_MET);
             return;
         }
 

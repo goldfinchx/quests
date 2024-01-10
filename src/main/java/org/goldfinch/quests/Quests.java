@@ -13,6 +13,9 @@ import org.goldfinch.quests.quest.QuestDataManager;
 @Getter
 public class Quests extends JavaPlugin {
 
+    @Getter
+    private static Quests instance;
+
     private Hibernate hibernate;
 
     private QuestPlayerDataManager playerDataManager;
@@ -22,6 +25,7 @@ public class Quests extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
         this.hibernate = new Hibernate();
 
         this.playerDataManager = new QuestPlayerDataManager(this);
