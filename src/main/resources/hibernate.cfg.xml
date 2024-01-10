@@ -16,19 +16,13 @@
     <mapping class="org.goldfinch.quests.player.entity.QuestPlayerData"/>
     <mapping class="org.goldfinch.quests.active.ActiveQuest"/>
 
-    <mapping class="org.goldfinch.quests.requirements.Requirement"/>
-    <mapping class="org.goldfinch.quests.requirements.impl.LevelRequirement"/>
-    <mapping class="org.goldfinch.quests.requirements.impl.PermissionRequirement"/>
-    <mapping class="org.goldfinch.quests.requirements.impl.CompletedQuestsRequirement"/>
-
     <mapping class="org.goldfinch.quests.tasks.Task"/>
     <mapping class="org.goldfinch.quests.tasks.impl.KillMobsTask"/>
     <mapping class="org.goldfinch.quests.tasks.impl.ReachLocationTask"/>
 
-    <mapping class="org.goldfinch.quests.rewards.Reward"/>
-    <mapping class="org.goldfinch.quests.rewards.impl.ExperienceReward"/>
-    <mapping class="org.goldfinch.quests.rewards.impl.ItemReward"/>
-    <mapping class="org.goldfinch.quests.rewards.impl.QuestPointsReward"/>
+    <mapping class="org.goldfinch.quests.rewards.Rewards"/>
+    <mapping class="org.goldfinch.quests.conditions.Conditions"/>
+    <mapping class="org.goldfinch.quests.requirements.Requirements"/>
 
     <mapping class="org.goldfinch.quests.wrappers.impl.LocationWrapper"/>
     <mapping class="org.goldfinch.quests.wrappers.impl.ItemStackWrapper"/>

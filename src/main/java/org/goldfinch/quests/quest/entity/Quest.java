@@ -13,13 +13,12 @@ import lombok.NoArgsConstructor;
 import lombok.Singular;
 import org.goldfinch.quests.Quests;
 import org.goldfinch.quests.active.ActiveQuest;
-import org.goldfinch.quests.conditions.Condition;
+import org.goldfinch.quests.conditions.Conditions;
 import org.goldfinch.quests.data.core.DataObject;
-import org.goldfinch.quests.language.Language;
 import org.goldfinch.quests.language.MessagesConfig;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
-import org.goldfinch.quests.requirements.Requirement;
-import org.goldfinch.quests.rewards.Reward;
+import org.goldfinch.quests.requirements.Requirements;
+import org.goldfinch.quests.rewards.Rewards;
 import org.goldfinch.quests.tasks.Task;
 
 @Builder
@@ -37,25 +36,14 @@ public class Quest extends DataObject<Long> {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Task> tasks;
 
-    @Singular
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Reward> rewards;
-
-    @Singular
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Requirement> requirements;
-
-    @Singular
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Condition> conditions;
-
-
-    // todo move to conditions
     @Builder.Default
-    private boolean parallelTasks = true;
+    private Rewards rewards = new Rewards();
 
     @Builder.Default
-    private boolean repeatable = false;
+    private Requirements requirements = new Requirements();
+
+    @Builder.Default
+    private Conditions conditions = new Conditions();
 
     public void start(QuestPlayerData playerData) {
         if (playerData.isCompletingQuest(this)) {
@@ -63,17 +51,13 @@ public class Quest extends DataObject<Long> {
             return;
         }
 
-        if (!this.hasMetRequirements(playerData)) {
+        if (!this.requirements.hasMet(playerData)) {
             Quests.getInstance().getMessagesConfig().send(playerData, MessagesConfig.Message.REQUIREMENTS_NOT_MET);
             return;
         }
 
         final ActiveQuest activeQuest = new ActiveQuest(this, playerData);
         playerData.getActiveQuests().add(activeQuest);
-    }
-
-    public boolean hasMetRequirements(QuestPlayerData playerData) {
-        return this.requirements.stream().allMatch(requirement -> requirement.hasMet(playerData));
     }
 
 }

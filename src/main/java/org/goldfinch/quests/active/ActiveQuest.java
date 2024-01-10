@@ -49,13 +49,9 @@ public class ActiveQuest extends DataObject<Long> {
     }
 
     public void complete() {
-        this.giveRewards();
+        this.quest.getRewards().give(this.playerData);
         this.playerData.getActiveQuests().remove(this);
         this.playerData.getCompletedQuests().add(this.getQuest());
-    }
-
-    private void giveRewards() {
-        this.quest.getRewards().forEach(reward -> reward.give(this.playerData));
     }
 
 }
