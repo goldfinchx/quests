@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Singular;
 import org.goldfinch.quests.Quests;
 import org.goldfinch.quests.active.ActiveQuest;
+import org.goldfinch.quests.conditions.Condition;
 import org.goldfinch.quests.data.core.DataObject;
 import org.goldfinch.quests.language.Language;
 import org.goldfinch.quests.language.MessagesConfig;
@@ -43,6 +44,10 @@ public class Quest extends DataObject<Long> {
     @Singular
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Requirement> requirements;
+
+    @Singular
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Condition> conditions;
 
 
     // todo move to conditions
