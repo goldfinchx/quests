@@ -14,12 +14,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.goldfinch.quests.language.MessagesConfig;
 import org.goldfinch.quests.quest.entity.ActiveQuest;
 import org.goldfinch.quests.tasks.ActiveTask;
 import org.goldfinch.quests.libs.storages.player.PlayerData;
 import org.goldfinch.quests.quest.entity.Quest;
 import org.goldfinch.quests.tasks.Task;
-import org.goldfinch.quests.language.Language;
 
 @Data
 @Entity
@@ -31,7 +31,7 @@ public class QuestPlayerData extends PlayerData {
     private int questPoints;
 
     @Enumerated(value = EnumType.STRING)
-    private Language language;
+    private MessagesConfig.Language language;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ActiveQuest> activeQuests;
@@ -43,7 +43,7 @@ public class QuestPlayerData extends PlayerData {
         super(uuid);
         this.level = 1;
         this.questPoints = 0;
-        this.language = Language.ENGLISH;
+        this.language = MessagesConfig.Language.ENGLISH;
         this.activeQuests = new ArrayList<>();
         this.completedQuests = new ArrayList<>();
     }

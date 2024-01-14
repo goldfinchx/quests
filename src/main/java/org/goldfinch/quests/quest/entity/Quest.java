@@ -130,9 +130,6 @@ public class Quest extends DataObject<Long> {
         private TaskLogic tasksLogic = TaskLogic.PARALLEL;
 
         @Builder.Default
-        private long timeLimitMinutes = 0;
-
-        @Builder.Default
         private Timestamp deadline = null;
 
         @Builder.Default

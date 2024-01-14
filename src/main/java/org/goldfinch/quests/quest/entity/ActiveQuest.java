@@ -9,9 +9,13 @@ import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.kyori.adventure.text.Component;
+import org.goldfinch.quests.Quests;
+import org.goldfinch.quests.language.MessagesConfig;
 import org.goldfinch.quests.tasks.ActiveTask;
 import org.goldfinch.quests.libs.storages.core.DataObject;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
+import org.goldfinch.quests.utils.TextUtils;
 
 @Getter
 @Entity
@@ -38,20 +42,34 @@ public class ActiveQuest extends DataObject<Long> {
             .toList();
     }
 
-    public void completeTask(ActiveTask activeTask) {
-        this.activeTasks.remove(activeTask);
-
-        if (!this.activeTasks.isEmpty()) {
-            return;
-        }
-
-        this.complete();
-    }
-
     public void complete() {
         this.quest.getRewards().give(this.playerData);
         this.playerData.getActiveQuests().remove(this);
         this.playerData.getCompletedQuests().add(this.getQuest());
+    }
+
+    public Component toComponent() {
+        final MessagesConfig config = Quests.getInstance().getMessagesConfig();
+
+        Component component = Component.text(this.quest.getName())
+            .appendNewline()
+            .append(TextUtils.divideComponent(Component.text(this.quest.getDescription()), 35))
+            .appendNewline()
+            .append(config.get(MessagesConfig.Message.TASKS_LIST_IN_QUEST_INFO, this.playerData));
+
+        for (final ActiveTask activeTask : this.getActiveTasks()) {
+            component = component.append(activeTask.toComponent());
+        }
+
+        if (this.quest.getConditions().getDeadline() != null) {
+            component = component
+                .appendNewline()
+                .append(config.get(MessagesConfig.Message.CONDITIONS_DEALINE, this.playerData,
+                    "%deadline%", this.quest.getConditions().getDeadline().toString())
+                );
+        }
+
+        return component.appendNewline();
     }
 
 }
