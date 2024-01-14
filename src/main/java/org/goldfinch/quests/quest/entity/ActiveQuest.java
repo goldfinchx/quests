@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.goldfinch.quests.Quests;
 import org.goldfinch.quests.language.MessagesConfig;
 import org.goldfinch.quests.tasks.ActiveTask;
@@ -46,6 +47,8 @@ public class ActiveQuest extends DataObject<Long> {
         this.quest.getRewards().give(this.playerData);
         this.playerData.getActiveQuests().remove(this);
         this.playerData.getCompletedQuests().add(this.getQuest());
+
+        this.quest.getConditions().getEndCommands().forEach(str -> Bukkit.getServer().dispatchCommand(this.playerData.getBukkitPlayer(), str));
     }
 
     public Component toComponent() {

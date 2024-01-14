@@ -51,13 +51,23 @@ public class QuestPlayerData extends PlayerData {
     public List<ActiveTask> getActiveTasks(Class<? extends Task> taskType) {
         return this.getActiveQuests()
             .stream()
-            .flatMap(activeQuest -> activeQuest.getActiveTasks().stream())
+            .flatMap(activeQuest -> {
+                if (activeQuest.getQuest().getConditions().getTasksLogic() != Quest.Conditions.TaskLogic.PARALLEL) {
+                    return activeQuest.getActiveTasks().stream().findFirst().stream();
+                } else {
+                   return activeQuest.getActiveTasks().stream();
+                }
+            })
             .filter(activeTask -> activeTask.getTask().getClass().equals(taskType))
             .toList();
     }
 
     public boolean isCompletingQuest(Quest quest) {
         return this.getActiveQuests().stream().anyMatch(activeQuest -> activeQuest.getQuest().equals(quest));
+    }
+
+    public boolean hasCompleted(Quest quest) {
+        return this.completedQuests.contains(quest);
     }
 
     public Player getBukkitPlayer() {

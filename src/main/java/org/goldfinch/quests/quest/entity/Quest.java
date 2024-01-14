@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Singular;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.goldfinch.quests.Quests;
 import org.goldfinch.quests.libs.storages.wrappers.impl.ItemStackWrapper;
@@ -49,18 +50,26 @@ public class Quest extends DataObject<Long> {
     private Conditions conditions = new Conditions();
 
     public void start(QuestPlayerData playerData) {
+        final MessagesConfig config = Quests.getInstance().getMessagesConfig();
+
         if (playerData.isCompletingQuest(this)) {
-            Quests.getInstance().getMessagesConfig().send(playerData, MessagesConfig.Message.ALREADY_COMPLETING_QUEST);
+            config.send(playerData, MessagesConfig.Message.ALREADY_COMPLETING_QUEST);
             return;
         }
 
         if (!this.requirements.hasMet(playerData)) {
-            Quests.getInstance().getMessagesConfig().send(playerData, MessagesConfig.Message.REQUIREMENTS_NOT_MET);
+            config.send(playerData, MessagesConfig.Message.REQUIREMENTS_NOT_MET);
             return;
+        }
+
+        if (playerData.hasCompleted(this) && !this.conditions.isRepeatable()) {
+            config.send(playerData, MessagesConfig.Message.CONDITIONS_NOT_REPEATABLE);
         }
 
         final ActiveQuest activeQuest = new ActiveQuest(this, playerData);
         playerData.getActiveQuests().add(activeQuest);
+
+        this.conditions.getStartCommands().forEach(str -> Bukkit.getServer().dispatchCommand(playerData.getBukkitPlayer(), str));
     }
 
     @Builder
@@ -129,19 +138,19 @@ public class Quest extends DataObject<Long> {
         @Builder.Default
         private TaskLogic tasksLogic = TaskLogic.PARALLEL;
 
-        @Builder.Default
+        @Builder.Default//todo
         private Timestamp deadline = null;
 
-        @Builder.Default
+        @Builder.Default//todo
         private boolean isCancelable = true;
 
         @Builder.Default
         private boolean isRepeatable = false;
 
-        @Builder.Default
+        @Builder.Default//todo
         private boolean startViaCommand = true;
 
-        @Builder.Default
+        @Builder.Default//todo
         private int questNpcId = -1;
 
         @Singular
@@ -155,8 +164,6 @@ public class Quest extends DataObject<Long> {
             SEQUENTIAL,
             RANDOM
         }
-
-        // todo implement
 
     }
 

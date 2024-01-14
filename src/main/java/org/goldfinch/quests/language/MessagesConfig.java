@@ -27,6 +27,9 @@ public class MessagesConfig extends Config {
     private final Map<Message, Localization> conditions = Map.of(
         Message.CONDITIONS_DEALINE, new Localization(Map.of(
             Language.ENGLISH, Component.text("Due to: %deadline%")
+        )),
+        Message.CONDITIONS_NOT_REPEATABLE, new Localization(Map.of(
+            Language.ENGLISH, Component.text("You cannot start this quest again!")
         ))
     );
 
@@ -159,6 +162,7 @@ public class MessagesConfig extends Config {
         TASKS_LIST_IN_QUEST_INFO,
         CONDITIONS_DEALINE,
         NOTIFICATION_JOIN_MANY_QUESTS,
+        CONDITIONS_NOT_REPEATABLE,
     }
 
 
