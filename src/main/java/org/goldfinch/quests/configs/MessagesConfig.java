@@ -1,4 +1,4 @@
-package org.goldfinch.quests.language;
+package org.goldfinch.quests.configs;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -163,6 +163,7 @@ public class MessagesConfig extends Config {
         CONDITIONS_DEALINE,
         NOTIFICATION_JOIN_MANY_QUESTS,
         CONDITIONS_NOT_REPEATABLE,
+        CONDITIONS_NOT_CANCELABLE,
     }
 
 

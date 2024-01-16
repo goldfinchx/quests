@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.goldfinch.quests.Quests;
-import org.goldfinch.quests.language.MessagesConfig;
+import org.goldfinch.quests.configs.MessagesConfig;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
 import org.goldfinch.quests.player.QuestPlayerDataManager;
 import org.goldfinch.quests.quest.entity.ActiveQuest;
@@ -32,9 +32,7 @@ public class QuestListener implements Listener {
         final List<ActiveQuest> activeQuests = playerData.getActiveQuests();
 
         if (activeQuests.size() <= 3) {
-            activeQuests.forEach(activeQuest -> {
-                playerData.getBukkitPlayer().sendMessage(activeQuest.toComponent());
-            });
+            activeQuests.forEach(activeQuest -> playerData.getBukkitPlayer().sendMessage(activeQuest.toComponent()));
         } else {
             this.config.send(playerData, MessagesConfig.Message.NOTIFICATION_JOIN_MANY_QUESTS, "%quests_count%", activeQuests.size());
         }

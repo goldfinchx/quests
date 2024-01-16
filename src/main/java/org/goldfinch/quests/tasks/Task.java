@@ -9,14 +9,11 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.val;
 import net.kyori.adventure.text.Component;
 import org.bukkit.event.Event;
-import org.goldfinch.quests.Quests;
-import org.goldfinch.quests.language.MessagesConfig;
+import org.goldfinch.quests.configs.MessagesConfig;
 import org.goldfinch.quests.libs.storages.core.DataObject;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
-import ru.artorium.configs.Replacer;
 
 @Getter
 @Entity

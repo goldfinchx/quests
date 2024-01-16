@@ -8,9 +8,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.goldfinch.quests.Quests;
-import org.goldfinch.quests.language.MessagesConfig;
+import org.goldfinch.quests.configs.MessagesConfig;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
-import org.goldfinch.quests.quest.entity.Quest;
 import org.goldfinch.quests.tasks.ActiveTask;
 import org.goldfinch.quests.tasks.Task;
 

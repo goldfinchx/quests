@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.goldfinch.quests.language.MessagesConfig;
+import org.goldfinch.quests.configs.MessagesConfig;
 import org.goldfinch.quests.quest.entity.ActiveQuest;
 import org.goldfinch.quests.tasks.ActiveTask;
 import org.goldfinch.quests.libs.storages.player.PlayerData;

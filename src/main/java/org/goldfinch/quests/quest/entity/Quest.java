@@ -21,7 +21,7 @@ import org.bukkit.entity.Player;
 import org.goldfinch.quests.Quests;
 import org.goldfinch.quests.libs.storages.wrappers.impl.ItemStackWrapper;
 import org.goldfinch.quests.libs.storages.core.DataObject;
-import org.goldfinch.quests.language.MessagesConfig;
+import org.goldfinch.quests.configs.MessagesConfig;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
 import org.goldfinch.quests.tasks.Task;
 

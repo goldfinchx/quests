@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.goldfinch.quests.Quests;
-import org.goldfinch.quests.language.MessagesConfig;
+import org.goldfinch.quests.configs.MessagesConfig;
 import org.goldfinch.quests.tasks.ActiveTask;
 import org.goldfinch.quests.libs.storages.core.DataObject;
 import org.goldfinch.quests.player.entity.QuestPlayerData;
@@ -49,6 +49,25 @@ public class ActiveQuest extends DataObject<Long> {
         this.playerData.getCompletedQuests().add(this.getQuest());
 
         this.quest.getConditions().getEndCommands().forEach(str -> Bukkit.getServer().dispatchCommand(this.playerData.getBukkitPlayer(), str));
+    }
+
+    public void cancel() {
+        if (!this.quest.getConditions().isCancelable()) {
+            Quests.getInstance().getMessagesConfig().send(this.playerData, MessagesConfig.Message.CONDITIONS_NOT_CANCELABLE);
+            return;
+        }
+
+        this.playerData.getActiveQuests().remove(this);
+    }
+
+    public Component toScoreboardComponent() {
+        Component component = Component.text(this.quest.getName()).appendNewline();
+
+        for (final ActiveTask activeTask : this.getActiveTasks()) {
+            component = component.append(activeTask.toComponent());
+        }
+
+        return component.appendNewline();
     }
 
     public Component toComponent() {
